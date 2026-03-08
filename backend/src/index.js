@@ -9,6 +9,9 @@ import { app, server } from "./lib/socket.js";
 
 dotenv.config();
 
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+console.log("NODE_ENV:", process.env.NODE_ENV);
+
 const PORT = process.env.PORT;
 
 app.use(express.json());
@@ -19,6 +22,8 @@ app.use(
       ? process.env.FRONTEND_URL
       : "http://localhost:5173",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
