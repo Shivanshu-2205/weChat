@@ -1,3 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ─── CSS Variables ─────────────────────────────────────── */
+:root {
+  --bg-deep:       #07090e;
+  --bg-mid:        #0d1018;
+  --bg-surface:    #111520;
+  --glass-bg:      rgba(255, 255, 255, 0.05);
+  --glass-border:  rgba(255, 255, 255, 0.08);
+  --glass-hover:   rgba(255, 255, 255, 0.085);
+  --accent:        #4f8ef7;
+  --accent-purple: #7c5cfc;
+  --accent-green:  #00e5b0;
+  --text-primary:  #e8eaf2;
+  --text-muted:    #6b7280;
+  --sent-bg:       rgba(79, 142, 247, 0.18);
+  --sent-border:   rgba(79, 142, 247, 0.32);
+  --recv-bg:       rgba(255, 255, 255, 0.06);
+  --recv-border:   rgba(255, 255, 255, 0.09);
+  --shadow:        0 8px 32px rgba(0, 0, 0, 0.35);
+  --radius:        16px;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'DM Mono', monospace;
+  color: var(--text-primary);
+  background: var(--bg-deep);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── App Background ─────────────────────────────────────── */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 10%, rgba(79,142,247,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(124,92,252,0.07) 0%, transparent 55%),
+    linear-gradient(160deg, #07090e 0%, #0d1018 55%, #111520 100%);
+}
+
+/* grid overlay */
+.app-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79,142,247,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,142,247,0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 100%);
+}
+
+/* floating orbs */
+.app-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle 320px at 12% 20%, rgba(79,142,247,0.055) 0%, transparent 70%),
+    radial-gradient(circle 220px at 88% 75%, rgba(124,92,252,0.045) 0%, transparent 70%);
+  animation: orb-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes orb-drift {
+  0%   { transform: translate(0,0) scale(1); }
+  50%  { transform: translate(25px,-18px) scale(1.04); }
+  100% { transform: translate(-15px,22px) scale(0.97); }
+}
+
+/* ─── Glass Utility ──────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(79,142,247,0.28);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(79,142,247,0.5); }
+
+/* ─── Glass Input ────────────────────────────────────────── */
+.glass-input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.875rem;
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+  padding-left: 1rem;   /* fallback — overridden by pl-* classes */
+  padding-right: 1rem;  /* fallback — overridden by pr-* classes */
+  width: 100%;
+  outline: none;
+  transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+.glass-input::placeholder { color: var(--text-muted); }
+.glass-input:focus {
+  border-color: rgba(79,142,247,0.5);
+  box-shadow: 0 0 0 3px rgba(79,142,247,0.1), 0 0 18px rgba(79,142,247,0.07);
+  background: rgba(255,255,255,0.07);
+}
+
+/* ─── Blue Glow Button ───────────────────────────────────── */
+.btn-glow {
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  padding: 0.72rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: box-shadow 200ms ease, transform 150ms ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.13) 0%, transparent 60%);
+  border-radius: inherit;
+}
+.btn-glow:hover:not(:disabled) {
+  box-shadow: 0 0 28px rgba(79,142,247,0.45), 0 4px 16px rgba(79,142,247,0.25);
+  transform: translateY(-1px);
+}
+.btn-glow:active:not(:disabled) { transform: translateY(0); }
+.btn-glow:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ─── Online Pulse ───────────────────────────────────────── */
+.online-pulse {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 6px var(--accent-green);
+}
+.online-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  opacity: 0.35;
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.8); opacity: 0.35; }
+  70%  { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
+/* ─── Typing Dots ────────────────────────────────────────── */
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%            { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ─── Message Animations ─────────────────────────────────── */
+@keyframes msg-in-right {
+  from { opacity: 0; transform: translateX(18px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes msg-in-left {
+  from { opacity: 0; transform: translateX(-18px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.msg-sent     { animation: msg-in-right 250ms ease-out forwards; }
+.msg-received { animation: msg-in-left  250ms ease-out forwards; }
+
+/* ─── Page Fade-Up ───────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 420ms ease-out forwards; }
+
+/* ─── Sidebar Slide-In ───────────────────────────────────── */
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.slide-left { animation: slide-in-left 380ms ease-out forwards; }
+
+/* ─── Float Animation (NoChatSelected) ──────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+.float-anim { animation: float 3s ease-in-out infinite; }
+
+/* ─── Syne font helper ───────────────────────────────────── */
+.font-syne { font-family: 'Syne', sans-serif; }

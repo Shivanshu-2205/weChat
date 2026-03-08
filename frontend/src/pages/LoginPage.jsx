@@ -18,102 +18,135 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="h-screen grid lg:grid-cols-2">
-      {/* Left Side - Form */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-md space-y-8">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="flex flex-col items-center gap-2 group">
-              <div
-                className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20
-              transition-colors"
-              >
-                <MessageSquare className="w-6 h-6 text-primary" />
-              </div>
-              <h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
-              <p className="text-base-content/60">Sign in to your account</p>
-            </div>
-          </div>
+    <div className="h-screen grid lg:grid-cols-2 relative">
+      {/* shared animated background */}
+      <div className="app-bg" />
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Email</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-base-content/40" />
-                </div>
-                <input
-                  type="email"
-                  className={`input input-bordered w-full pl-10`}
-                  placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Password</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-base-content/40" />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pl-10`}
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
+      {/* ── Left: Form ──────────────────────────────────── */}
+      <div className="relative z-10 flex flex-col justify-center items-center p-6 sm:p-12">
+        <div className="w-full max-w-md fade-up">
+          {/* Glass card */}
+          <div
+            className="glass p-8 sm:p-10 space-y-7"
+            style={{ borderRadius: "20px" }}
+          >
+            {/* Logo */}
+            <div className="text-center">
+              <div className="flex flex-col items-center gap-3">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  style={{
+                    background: "rgba(79,142,247,0.15)",
+                    border: "1px solid rgba(79,142,247,0.25)",
+                    boxShadow: "0 0 24px rgba(79,142,247,0.15)",
+                  }}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-base-content/40" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-base-content/40" />
-                  )}
-                </button>
+                  <MessageSquare className="w-7 h-7" style={{ color: "#4f8ef7" }} />
+                </div>
+                <h1
+                  className="text-2xl font-bold mt-1"
+                  style={{ fontFamily: "'Syne', sans-serif", color: "#e8eaf2" }}
+                >
+                  Welcome Back
+                </h1>
+                <p style={{ color: "#6b7280", fontSize: "0.85rem" }}>
+                  Sign in to your WeChat account
+                </p>
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full" disabled={isLoggingIn}>
-              {isLoggingIn ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </>
-              ) : (
-                "Sign in"
-              )}
-            </button>
-          </form>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email */}
+              <div className="space-y-1.5">
+                <label
+                  className="block text-xs font-medium uppercase tracking-wider"
+                  style={{ color: "#6b7280", fontFamily: "'DM Mono', monospace" }}
+                >
+                  Email
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <Mail className="h-4 w-4" style={{ color: "#6b7280" }} />
+                  </div>
+                  <input
+                    type="email"
+                    className="glass-input"
+                    style={{ paddingLeft: "2.5rem" }}
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+              </div>
 
-          <div className="text-center">
-            <p className="text-base-content/60">
-              Don&apos;t have an account?{" "}
-              <Link to="/signup" className="link link-primary">
-                Create account
-              </Link>
-            </p>
+              {/* Password */}
+              <div className="space-y-1.5">
+                <label
+                  className="block text-xs font-medium uppercase tracking-wider"
+                  style={{ color: "#6b7280", fontFamily: "'DM Mono', monospace" }}
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <Lock className="h-4 w-4" style={{ color: "#6b7280" }} />
+                  </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="glass-input"
+                    style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{ color: "#6b7280" }}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" className="btn-glow mt-2" disabled={isLoggingIn}>
+                {isLoggingIn ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Signing in...
+                  </span>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+            </form>
+
+            <div className="text-center">
+              <p style={{ color: "#6b7280", fontSize: "0.85rem" }}>
+                Don&apos;t have an account?{" "}
+                <Link
+                  to="/signup"
+                  style={{ color: "#4f8ef7", textDecoration: "none", fontWeight: 600 }}
+                >
+                  Create account
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Right Side - Image/Pattern */}
-      <AuthImagePattern
-        title={"Welcome back!"}
-        subtitle={"Sign in to continue your conversations and catch up with your messages."}
-      />
+      {/* ── Right: Pattern ───────────────────────────────── */}
+      <div className="relative z-10">
+        <AuthImagePattern
+          title="Welcome back!"
+          subtitle="Sign in to continue your conversations and catch up with your messages."
+        />
+      </div>
     </div>
   );
 };
+
 export default LoginPage;
